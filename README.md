@@ -17,6 +17,8 @@
 **Client IP:** **`192.168.55.136`**
 
 ```
+# Client --> proxy1 --> app
+
 ~# curl -s -H "X-Forwarded-For: 192.168.0.2" 192.168.55.35:1081 -o - | grep HTTP_X_
 ```
 ```
@@ -26,6 +28,8 @@
 ```
 
 ```
+# Client --> proxy2 --> proxy1 --> app
+
 ~# curl -s -H "X-Forwarded-For: 192.168.0.2" 192.168.55.35:1082 -o - | grep HTTP_X_
 ```
 ```
@@ -35,6 +39,8 @@
 ```
 
 ```
+# Client --> proxy3 --> proxy2 --> proxy1 --> app
+
 ~# curl -s -H "X-Forwarded-For: 192.168.0.2" 192.168.55.35:1083 -o - | grep HTTP_X_
 ```
 ```
