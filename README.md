@@ -51,5 +51,6 @@
 
 ## Notes ##
 
-* Change containers version: update `$VER` variable value in `.env` file.
-&nbsp;&nbspEligible values: 1, 2 (default: 2)
+* Change containers version: update `$VER` variable value in `.env` file.\
+&nbsp;\
+&nbsp;&nbsp;Eligible values: 1, 2 (default: 2)
