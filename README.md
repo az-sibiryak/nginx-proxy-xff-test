@@ -48,3 +48,8 @@
     [HTTP_X_FORWARDED_FOR] => 192.168.55.136
     [HTTP_X_REAL_IP] => 192.168.55.136
 ```
+
+## Notes ##
+
+* Change containers version: update `$VER` variable value in `.env` file.
+&nbsp;&nbspEligible values: 1, 2 (default: 2)
