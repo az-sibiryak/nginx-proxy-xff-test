@@ -3,44 +3,50 @@ version: '3'
 services:
   app:
     image: nginx:latest
-    container_name: app
-    hostname: app
+    container_name: app-v${VER}
+    hostname: app-v${VER}
     volumes:
-      - ./data/app/nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./data/app/index.php:/var/www/html/index.php
-#    ports:
-#     - 1088:1088
+      - ./data.${VER}/app/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./data.${VER}/app/index.php:/var/www/html/index.php
 
   php:
     image: php:fpm
-    container_name: php
-    hostname: php
+    container_name: php-v${VER}
+    hostname: php-v${VER}
     volumes:
-      - ./data/app/index.php:/var/www/html/index.php
+      - ./data.${VER}/app/index.php:/var/www/html/index.php
 
   proxy1:
     image: nginx:latest
-    container_name: proxy1
-    hostname: proxy1
+    container_name: proxy1-v${VER}
+    hostname: proxy1-v${VER}
     volumes:
-      - ./data/proxy1/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./data.${VER}/proxy1/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 1081:1081
 
   proxy2:
     image: nginx:latest
-    container_name: proxy2
-    hostname: proxy2
+    container_name: proxy2-v${VER}
+    hostname: proxy2-v${VER}
     volumes:
-      - ./data/proxy2/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./data.${VER}/proxy2/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 1082:1082
 
   proxy3:
     image: nginx:latest
-    container_name: proxy3
-    hostname: proxy3
+    container_name: proxy3-v${VER}
+    hostname: proxy3-v${VER}
     volumes:
-      - ./data/proxy3/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./data.${VER}/proxy3/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 1083:1083
+
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.238.0/24"
+        - subnet: "2001:3984:3989::/64"
