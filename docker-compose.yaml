@@ -50,6 +50,16 @@ services:
     ports:
       - 1083:1083
 
+  haproxy:
+    image: haproxytech/haproxy-alpine:3.0
+    container_name: haproxy-v${VER}
+    hostname: haproxy-v${VER}
+    volumes:
+      - ./data.common/haproxy:/usr/local/etc/haproxy:ro
+    ports:
+      - 1090:1090
+      - 8181:8181
+
 networks:
   default:
     ipam:
