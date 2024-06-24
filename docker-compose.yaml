@@ -9,6 +9,11 @@ services:
       - ./data.${VER}/app/nginx.conf:/etc/nginx/conf.d/default.conf
       - ./data.common/nginx-conf.d/security.inc:/etc/nginx/conf.d/security.inc
       - ./data.${VER}/app/index.php:/var/www/html/index.php
+    networks:
+      app_net:
+        ipv4_address: "172.16.230.100"
+      proxy_net:
+        ipv4_address: "172.16.240.100"
 
   php:
     image: php:fpm
@@ -16,6 +21,9 @@ services:
     hostname: php-v${VER}
     volumes:
       - ./data.${VER}/app/index.php:/var/www/html/index.php
+    networks:
+      app_net:
+        ipv4_address: "172.16.230.123"
 
   proxy1:
     image: nginx:latest
@@ -27,6 +35,13 @@ services:
       - ./data.common/nginx-conf.d/location-block-1.inc:/etc/nginx/conf.d/location-block-1.inc
     ports:
       - 1081:1081
+    networks:
+      app_net:
+        ipv4_address: "172.16.230.101"
+      proxy_net:
+        ipv4_address: "172.16.240.101"
+      frontend_net:
+        ipv4_address: "172.16.250.101"
 
   proxy2:
     image: nginx:latest
@@ -38,6 +53,13 @@ services:
       - ./data.common/nginx-conf.d/location-block-1.inc:/etc/nginx/conf.d/location-block-1.inc
     ports:
       - 1082:1082
+    networks:
+      app_net:
+        ipv4_address: "172.16.230.102"
+      proxy_net:
+        ipv4_address: "172.16.240.102"
+      frontend_net:
+        ipv4_address: "172.16.250.102"
 
   proxy3:
     image: nginx:latest
@@ -49,6 +71,13 @@ services:
       - ./data.common/nginx-conf.d/location-block-1.inc:/etc/nginx/conf.d/location-block-1.inc
     ports:
       - 1083:1083
+    networks:
+      app_net:
+        ipv4_address: "172.16.230.103"
+      proxy_net:
+        ipv4_address: "172.16.240.103"
+      frontend_net:
+        ipv4_address: "172.16.250.103"
 
   haproxy:
     image: haproxytech/haproxy-alpine:3.0
@@ -59,11 +88,28 @@ services:
     ports:
       - 1090:1090
       - 8181:8181
+    networks:
+      proxy_net:
+        ipv4_address: "172.16.240.200"
+      frontend_net:
+        ipv4_address: "172.16.250.200"
 
 networks:
-  default:
+  app_net:
     ipam:
       driver: default
       config:
-        - subnet: "172.16.238.0/24"
+        - subnet: "172.16.230.0/24"
+        - subnet: "2001:3984:3989::/64"
+  proxy_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.240.0/24"
+        - subnet: "2001:3984:3989::/64"
+  frontend_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.250.0/24"
         - subnet: "2001:3984:3989::/64"
